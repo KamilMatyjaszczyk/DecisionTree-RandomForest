@@ -8,15 +8,9 @@ At the end there is some test code that you can use to test your implementation 
 """
 
 def count(y: np.ndarray) -> np.ndarray:
-    """
-    Count unique values in y and return the proportions of each class sorted by label in ascending order.
-    Example:
-        count(np.array([3, 0, 0, 1, 1, 1, 2, 2, 2, 2])) -> np.array([0.2, 0.3, 0.4, 0.1])
-    """
-    raise NotImplementedError(
-        "Implement this function"
-    )  # Remove this line when you implement the function
-
+   labels, counted = np.unique(y, return_counts=True)
+    relative_counted = counted / len(y)
+    return relative_counted
 
 def gini_index(y: np.ndarray) -> float:
     """
