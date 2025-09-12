@@ -1,5 +1,7 @@
 import numpy as np
-from typing import Self
+from typing import Self, Tuple, Any
+
+from numpy import ndarray, dtype, float64
 
 """
 This is a suggested template and you do not need to follow it. You can change any part of it to fit your needs.
@@ -13,47 +15,28 @@ def count(y: np.ndarray) -> np.ndarray:
     return relative_counted
 
 def gini_index(y: np.ndarray) -> float:
-    """
-    Return the Gini Index of a given NumPy array y.
-    The forumla for the Gini Index is 1 - sum(probs^2), where probs are the proportions of each class in y.
-    Example:
-        gini_index(np.array([1, 1, 2, 2, 3, 3, 4, 4])) -> 0.75
-    """
-    raise NotImplementedError(
-        "Implement this function"
-    )  # Remove this line when you implement the function
+    if y.size == 0:
+        return 0.0
 
+    probs = count(y)
+    return float(1.0 - np.sum(probs ** 2))
+    
 
 def entropy(y: np.ndarray) -> float:
-    """
-    Return the entropy of a given NumPy array y.
-    """
-    raise NotImplementedError(
-        "Implement this function"
-    )  # Remove this line when you implement the function
+    if y.size == 0:
+        return 0.0
 
+    probs = count(y)
+    probs = probs[probs > 0]
+
+    return float(-np.sum(probs * np.log2(probs)))
 
 def split(x: np.ndarray, value: float) -> np.ndarray:
-    """
-    Return a boolean mask for the elements of x satisfying x <= value.
-    Example:
-        split(np.array([1, 2, 3, 4, 5, 2]), 3) -> np.array([True, True, True, False, False, True])
-    """
-    raise NotImplementedError(
-        "Implement this function"
-    )  # Remove this line when you implement the function
-
+    return x <= value
 
 def most_common(y: np.ndarray) -> int:
-    """
-    Return the most common element in y.
-    Example:
-        most_common(np.array([1, 2, 2, 3, 3, 3, 4, 4, 4, 4])) -> 4
-    """
-    raise NotImplementedError(
-        "Implement this function"
-    )  # Remove this line when you implement the function
-
+    labels, counted = np.unique(y, return_counts=True)
+    return int(labels[np.argmax(counted)])
 
 class Node:
     """
