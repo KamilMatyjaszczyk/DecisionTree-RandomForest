@@ -111,16 +111,13 @@ class Node:
 
 
 class DecisionTree:
-    """
-    Decision tree classifier
-    """
-
     def __init__(
             self,
             max_depth: int | None = None,
             criterion: str = "entropy",
             max_features: str | int | None = None,
     ) -> None:
+        """Initializes the Decision Tree classifier"""
         self.root = None
         self.criterion = criterion
         self.max_depth = max_depth
@@ -262,7 +259,6 @@ class DecisionTree:
         Parameters:
         node : Current node
         depth (int): Current depth
-
         """
         if node is None:
             node = self.root
