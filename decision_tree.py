@@ -119,10 +119,13 @@ class DecisionTree:
             self,
             max_depth: int | None = None,
             criterion: str = "entropy",
+            max_features: str | int | None = None,
     ) -> None:
         self.root = None
         self.criterion = criterion
         self.max_depth = max_depth
+        self.max_features = max_features
+
 
     def _impurity(self, y: ndarray) -> float:
         """
@@ -154,7 +157,18 @@ class DecisionTree:
         parent_impurity = self._impurity(y)
         best_feature, best_threshold, best_gain = -1, None, -1.0
 
-        for x in range(features):
+        if self.max_features is None:
+            n_consider = features
+        elif self.max_features == "sqrt":
+            n_consider = max(1, int(np.sqrt(features)))
+        elif self.max_features == "log2":
+            n_consider = max(1, int(np.log2(features)))
+        else:
+            n_consider = min(features, int(self.max_features))
+
+        feature_subset = np.random.choice(features, size=n_consider, replace=False)
+
+        for x in feature_subset:
             col = X[:, x]
             threshold = np.median(col)
             left_mask = split(col, threshold)
